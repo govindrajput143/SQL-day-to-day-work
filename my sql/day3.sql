@@ -1,0 +1,4 @@
+-- functions 
+-- block of code, collection of statement => perform certain tast 
+-- code duplicacy is removed 
+-- make your code divided into smaller setion 
