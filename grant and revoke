@@ -1,0 +1,118 @@
+use newdb;
+
+start transaction ;
+delete from department7;
+ rollback;
+ select * from department;
+ 
+ select transaction;
+ insert into department7 values (105,'asdfasd', 'jaipasdflkasdjfur');
+  savepoint department_insert_chk1; -- creating a reference point to revert to this transaction only
+  delete from department7 where dept_id=103;
+  
+rollback to department_insert_chk1 ;
+
+select * from department;
+
+
+start transaction;
+insert into department value( 999999,'asdfg', 'jaipasdflkasdjful');
+
+create table ajkslhfdash(id int); -- ddl statement end transaction here
+
+
+
+
+
+-- data control language
+-- authentication and authorization
+
+
+create user govind identified by 'govind123';
+
+
+
+show grants for govind;
+grant select on newdb.* to govind;
+
+
+
+-- homework*********************************************************
+-- give jitu user select or insert permission
+-- provide the update permission on a specific column to this jitu user
+-- revoke the delete permission from this jitu user
+-- revoke all the permission from c
+-- normalization
+-- acid properties
+-- windows fucntion
+
+-- DCL (Data Control Language)
+
+DROP USER IF EXISTS 'govind';
+
+CREATE USER 'govind' IDENTIFIED BY 'govind123';
+
+SHOW GRANTS FOR 'go
+vind';
+
+-- Give SELECT permission
+GRANT SELECT ON newdb.* TO 'govind';
+
+-- Give SELECT and INSERT permissions
+
+GRANT SELECT, INSERT ON newdb.* TO 'govind';
+
+-- Give UPDATE permission on a specific column (example: salary column)
+GRANT UPDATE (salary) ON newdb.employees TO 'govind';
+
+-- Give DELETE permission
+GRANT DELETE ON newdb.* TO 'govind';
+
+-- Check permissions
+SHOW GRANTS FOR 'govind';
+
+-- Revoke DELETE permission
+REVOKE DELETE ON newdb.* FROM 'govind';
+
+-- Revoke UPDATE permission
+REVOKE UPDATE ON newdb.employees FROM 'govind';
+
+-- Revoke INSERT permission
+REVOKE INSERT ON newdb.* FROM 'govind';
+
+-- Revoke SELECT permission
+REVOKE SELECT ON newdb.* FROM 'govind';
+
+-- Revoke all privileges
+REVOKE ALL PRIVILEGES ON newdb.* FROM 'govind';
+
+-- Check permissions again
+SHOW GRANTS FOR 'govind';
+
+
+-- role 
+create role if not exists "hr_role";
+
+--  no user in the role 
+select to_user as 'user'  ,to_host as 'host'
+from  mysql.role_edges 
+where from_user = 'hr_role';
+
+
+-- create user
+create user aman99 identified by 'aman123';
+
+-- assign permisson to role
+grant select on newdb.* to hr_role;
+
+-- role assign to user 
+grant hr_role to aman99;
+
+
+show grants from aman99;
+
+
+set default role hr_role to aman99;  -- assigning a default role to the user everytime
+
+
+ select * ,()from employee;

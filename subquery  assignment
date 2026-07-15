@@ -1,0 +1,707 @@
+CREATE DATABASE company_sales_db;
+USE company_sales_db;
+
+CREATE TABLE employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100) NOT NULL,
+    department VARCHAR(50),
+    salary DECIMAL(10,2),
+    manager_id INT NULL,
+    hire_year INT, FOREIGN KEY (manager_id) REFERENCES employees(emp_id)
+);
+
+INSERT INTO employees
+(emp_id, emp_name, department, salary, manager_id, hire_year)
+VALUES
+(101, 'Alice Johnson', 'IT', 72000, NULL, 2018),
+(102, 'Bob Smith', 'IT', 65000, 101, 2019),
+(103, 'Carol White', 'HR', 58000, NULL, 2017),
+(104, 'David Brown', 'HR', 54000, 103, 2020),
+(105, 'Eva Green', 'Finance', 80000, NULL, 2016),
+(106, 'Frank Black', 'Finance', 75000, 105, 2018),
+(107, 'Grace Lee', 'IT', 68000, 101, 2021),
+(108, 'Henry Wilson', 'Marketing', 60000, NULL, 2017),
+(109, 'Ivy Turner', 'Marketing', 56000, 108, 2022),
+(110, 'Jack Davis', 'Finance', 70000, 105, 2019),
+(111, 'Karen Moore', 'IT', 63000, 101, 2020),
+(112, 'Leo Harris', 'HR', 50000, 103, 2021),
+(113, 'Mia Clark', 'Marketing', 62000, 108, 2018),
+(114, 'Nate Lewis', 'Finance', 78000, 105, 2019),
+(115, 'Olivia Walker', 'IT', 71000, 101, 2017),
+(116, 'Paul Hall', 'HR', 53000, 103, 2020),
+(117, 'Quinn Young', 'Marketing', 59000, 108, 2021),
+(118, 'Rachel King', 'Finance', 82000, 105, 2016),
+(119, 'Sam Scott', 'IT', 66000, 101, 2022),
+(120, 'Tina Adams', 'HR', 55000, 103, 2019);
+
+
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY,
+    customer_name VARCHAR(100) NOT NULL,
+    city VARCHAR(50),
+    country VARCHAR(50),
+    join_year INT
+);
+
+
+INSERT INTO customers
+(customer_id, customer_name, city, country, join_year)
+VALUES
+(201, 'Aarav Mehta', 'Mumbai', 'India', 2021),
+(202, 'Priya Sharma', 'Delhi', 'India', 2020),
+(203, 'Rohan Gupta', 'Pune', 'India', 2022),
+(204, 'Sunita Patel', 'Ahmedabad', 'India', 2021),
+(205, 'Vikram Rao', 'Bangalore', 'India', 2019),
+(206, 'Neha Singh', 'Chennai', 'India', 2023),
+(207, 'Arjun Kumar', 'Hyderabad', 'India', 2020),
+(208, 'Deepa Nair', 'Kochi', 'India', 2022),
+(209, 'Sanjay Joshi', 'Jaipur', 'India', 2021),
+(210, 'Meera Iyer', 'Coimbatore', 'India', 2023),
+(211, 'Ravi Verma', 'Lucknow', 'India', 2020),
+(212, 'Anita Das', 'Kolkata', 'India', 2019),
+(213, 'Kiran Reddy', 'Vizag', 'India', 2022),
+(214, 'Pooja Shah', 'Surat', 'India', 2021),
+(215, 'Amit Bose', 'Nagpur', 'India', 2023),
+(216, 'Tara Menon', 'Trivandrum', 'India', 2020),
+(217, 'Nikhil Kulkarni', 'Nashik', 'India', 2022),
+(218, 'Swati Chatterjee', 'Bhopal', 'India', 2019),
+(219, 'Rahul Pandey', 'Patna', 'India', 2021),
+(220, 'Divya Tiwari', 'Indore', 'India', 2023);
+
+
+CREATE TABLE products (
+    product_id INT PRIMARY KEY,
+    product_name VARCHAR(100) NOT NULL,
+    category VARCHAR(50),
+    price DECIMAL(10,2),
+    stock_qty INT
+);
+
+
+INSERT INTO products
+(product_id, product_name, category, price, stock_qty)
+VALUES
+(301, 'Laptop', 'Electronics', 55000, 30),
+(302, 'Smartphone', 'Electronics', 22000, 80),
+(303, 'Headphones', 'Electronics', 3500, 120),
+(304, 'Monitor', 'Electronics', 18000, 45),
+(305, 'Keyboard', 'Accessories', 1500, 200),
+(306, 'Mouse', 'Accessories', 900, 250),
+(307, 'Desk Chair', 'Furniture', 8500, 40),
+(308, 'Standing Desk', 'Furniture', 22000, 15),
+(309, 'Webcam', 'Electronics', 4200, 70),
+(310, 'USB Hub', 'Accessories', 1200, 180),
+(311, 'Notebook', 'Stationery', 150, 500),
+(312, 'Pen Set', 'Stationery', 250, 600),
+(313, 'Printer', 'Electronics', 12000, 25),
+(314, 'Scanner', 'Electronics', 9000, 20),
+(315, 'External SSD', 'Electronics', 7500, 60),
+(316, 'Lamp', 'Furniture', 2200, 90),
+(317, 'Whiteboard', 'Office Supplies', 3800, 35),
+(318, 'Cable Organiser', 'Accessories', 600, 300),
+(319, 'Power Bank', 'Electronics', 2800, 100),
+(320, 'Smart Watch', 'Electronics', 15000, 55);
+
+
+
+
+CREATE TABLE departments (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(50) NOT NULL,
+    budget DECIMAL(12,2),
+    location VARCHAR(50),
+    head_id INT,
+   
+    FOREIGN KEY (head_id) REFERENCES employees(emp_id)
+);
+
+
+
+
+INSERT INTO departments
+(dept_id, dept_name, budget, location, head_id)
+VALUES
+(1, 'IT', 500000, 'Bangalore', 101),
+(2, 'HR', 200000, 'Mumbai', 103),
+(3, 'Finance', 600000, 'Delhi', 105),
+(4, 'Marketing', 300000, 'Chennai', 108);
+
+
+
+
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    product_id INT,
+    amount DECIMAL(12,2),
+    order_date DATE,
+    status VARCHAR(20),
+   
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+);
+
+
+
+
+INSERT INTO orders
+(order_id, customer_id, product_id, amount, order_date, status)
+VALUES
+(1001, 201, 301, 1500, '2024-01-05', 'Delivered'),
+(1002, 202, 302, 2300, '2024-01-12', 'Delivered'),
+(1003, 203, 303, 800, '2024-02-03', 'Delivered'),
+(1004, 201, 304, 3200, '2024-02-14', 'Delivered'),
+(1005, 204, 301, 1100, '2024-03-01', 'Pending'),
+(1006, 205, 302, 4500, '2024-03-15', 'Delivered'),
+(1007, 202, 303, 950, '2024-03-22', 'Cancelled'),
+(1008, 206, 304, 2100, '2024-04-05', 'Delivered'),
+(1009, 203, 301, 1750, '2024-04-18', 'Pending'),
+(1010, 207, 302, 3300, '2024-04-30', 'Delivered'),
+(1011, 204, 303, 680, '2024-05-10', 'Cancelled'),
+(1012, 208, 304, 2900, '2024-05-22', 'Delivered'),
+(1013, 205, 301, 1200, '2024-06-08', 'Delivered'),
+(1014, 201, 302, 2700, '2024-06-15', 'Pending'),
+(1015, 209, 303, 500, '2024-06-28', 'Delivered'),
+(1016, 206, 304, 3800, '2024-07-07', 'Delivered'),
+(1017, 207, 301, 1600, '2024-07-19', 'Delivered'),
+(1018, 210, 302, 4100, '2024-07-25', 'Delivered'),
+(1019, 208, 303, 720, '2024-08-02', 'Cancelled'),
+(1020, 209, 304, 2200, '2024-08-14', 'Delivered');
+
+
+
+
+SHOW TABLES;
+-- 1 Find the names, departments, and salaries of all employees whose salary is greater than the average salary of
+-- all employees in the company. The company-wide average salary should be computed inside
+select emp_name,department, salary from employees where salary >( select avg(salary)m from employees) order by salary desc;
+
+-- 2 Display the emp_id, emp_name, department, and salary of the single highest-paid employee in the entire
+-- company. Use a subquery that returns the maximum salary, and filter the main query to match
+select emp_id, emp_name, department, salary from employees
+where salary = (select max(salary) from employees);
+
+-- Q4. Find employees hired in the same year as Rachel King.
+SELECT emp_name, department, hire_year
+FROM employees
+WHERE hire_year = (
+    SELECT hire_year
+    FROM employees
+    WHERE emp_name = 'Rachel King'
+)
+AND emp_name <> 'Rachel King';
+
+
+-- Q5. Find products priced above the average product price.
+SELECT product_name, category, price
+FROM products
+WHERE price > (
+    SELECT AVG(price)
+    FROM products
+)
+ORDER BY price DESC;
+
+
+-- Q6. Find the most expensive product.
+SELECT product_id, product_name, category, price
+FROM products
+WHERE price = (
+    SELECT MAX(price)
+    FROM products
+);
+
+
+-- Q7. Find the cheapest product.
+SELECT product_id, product_name, category, price
+FROM products
+WHERE price = (
+    SELECT MIN(price)
+    FROM products
+);
+
+
+-- Q8. Find orders above the average order amount.
+SELECT order_id, customer_id, amount
+FROM orders
+WHERE amount > (
+    SELECT AVG(amount)
+    FROM orders
+)
+ORDER BY amount DESC;
+
+
+-- Q9. Find the most expensive order.
+SELECT order_id, customer_id, amount, order_date
+FROM orders
+WHERE amount = (
+    SELECT MAX(amount)
+    FROM orders
+);
+
+
+-- Q10. Find customers who placed at least one order.
+SELECT customer_id, customer_name, city
+FROM customers
+WHERE customer_id IN (
+    SELECT customer_id
+    FROM orders
+)
+ORDER BY customer_id;
+
+
+-- Q11. Find customers who never placed an order.
+SELECT customer_id, customer_name, city
+FROM customers
+WHERE customer_id NOT IN (
+    SELECT customer_id
+    FROM orders
+)
+ORDER BY customer_id;
+
+
+-- Q12. Find products that appear in at least one order.
+SELECT product_id, product_name, category, price
+FROM products
+WHERE product_id IN (
+    SELECT product_id
+    FROM orders
+);
+
+
+-- Q13. Find products that were never ordered.
+SELECT product_id, product_name, category, price
+FROM products
+WHERE product_id NOT IN (
+    SELECT product_id
+    FROM orders
+);
+
+
+-- Q14. Find employees in the Finance department using a subquery.
+SELECT emp_name, salary
+FROM employees
+WHERE department IN (
+    SELECT dept_name
+    FROM departments
+    WHERE dept_name = 'Finance'
+)
+ORDER BY salary DESC;
+
+
+-- Q15. Find employees earning less than the minimum Finance salary.
+SELECT emp_name, department, salary
+FROM employees
+WHERE salary < (
+    SELECT MIN(salary)
+    FROM employees
+    WHERE department = 'Finance'
+)
+ORDER BY salary DESC;
+
+
+-- Q16. Find the department with the highest budget.
+SELECT dept_name, budget, location
+FROM departments
+WHERE budget = (
+    SELECT MAX(budget)
+    FROM departments
+);
+
+
+-- Q17. Find customers who placed exactly 1 order.
+SELECT customer_id, customer_name, city
+FROM customers
+WHERE customer_id IN (
+    SELECT customer_id
+    FROM orders
+    GROUP BY customer_id
+    HAVING COUNT(*) = 1
+);
+
+
+-- Q18. Find customers who placed 2 or more orders.
+SELECT customer_id, customer_name, city
+FROM customers
+WHERE customer_id IN (
+    SELECT customer_id
+    FROM orders
+    GROUP BY customer_id
+    HAVING COUNT(*) >= 2
+)
+ORDER BY customer_id;
+
+
+-- Q19. Find products more expensive than every Accessories product.
+SELECT product_name, category, price
+FROM products
+WHERE price > (
+    SELECT MAX(price)
+    FROM products
+    WHERE category = 'Accessories'
+)
+ORDER BY price DESC;
+
+
+-- Q20. Find orders of customers who joined in 2021.
+SELECT order_id, customer_id, amount, order_date
+FROM orders
+WHERE customer_id IN (
+    SELECT customer_id
+    FROM customers
+    WHERE join_year = 2021
+)
+ORDER BY order_date;
+
+
+-- Q21. Find employees who are managers.
+SELECT emp_id, emp_name, department
+FROM employees e
+WHERE EXISTS (
+    SELECT 1
+    FROM employees x
+    WHERE x.manager_id = e.emp_id
+)
+ORDER BY emp_name;
+
+
+-- Q22. Find employees who are not managers.
+SELECT emp_id, emp_name, department
+FROM employees e
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM employees x
+    WHERE x.manager_id = e.emp_id
+)
+ORDER BY emp_id;
+
+
+-- Q23. Find customers who have at least one order using EXISTS.
+SELECT customer_id, customer_name, city
+FROM customers c
+WHERE EXISTS (
+    SELECT 1
+    FROM orders o
+    WHERE o.customer_id = c.customer_id
+)
+ORDER BY customer_id;
+
+
+-- Q24. Find customers who have no orders using NOT EXISTS.
+SELECT customer_id, customer_name, city
+FROM customers c
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM orders o
+    WHERE o.customer_id = c.customer_id
+)
+ORDER BY customer_id;
+
+
+-- Q25. Find products that appear in orders using EXISTS.
+SELECT product_id, product_name, category
+FROM products p
+WHERE EXISTS (
+    SELECT 1
+    FROM orders o
+    WHERE o.product_id = p.product_id
+)
+ORDER BY product_id;
+
+
+-- Q26. Find employees in Eva Green's department except Eva.
+SELECT emp_name, department, salary
+FROM employees
+WHERE department = (
+    SELECT department
+    FROM employees
+    WHERE emp_id = 105
+)
+AND emp_id <> 105
+ORDER BY salary DESC;
+
+
+-- Q27. Find the most recent order.
+SELECT order_id, customer_id, amount, order_date
+FROM orders
+WHERE order_date = (
+    SELECT MAX(order_date)
+    FROM orders
+);
+
+
+-- Q28. Find the earliest order.
+SELECT order_id, customer_id, amount, order_date
+FROM orders
+WHERE order_date = (
+    SELECT MIN(order_date)
+    FROM orders
+);
+
+
+-- Q29. Find employees earning more than every HR employee.
+SELECT emp_name, department, salary
+FROM employees
+WHERE salary > (
+    SELECT MAX(salary)
+    FROM employees
+    WHERE department = 'HR'
+)
+ORDER BY salary DESC;
+
+
+-- Q30. Find Delivered orders above Delivered average.
+SELECT order_id, customer_id, amount, status
+FROM orders
+WHERE status = 'Delivered'
+AND amount > (
+    SELECT AVG(amount)
+    FROM orders
+    WHERE status = 'Delivered'
+)
+ORDER BY amount DESC;
+
+
+
+-- =========================================================
+-- INTERMEDIATE QUESTIONS Q31 - Q45
+-- =========================================================
+
+
+-- Q31. Find employees earning above their department average.
+SELECT
+    e.emp_name,
+    e.department,
+    e.salary,
+    ROUND((
+        SELECT AVG(e2.salary)
+        FROM employees e2
+        WHERE e2.department = e.department
+    ), 2) AS dept_avg
+FROM employees e
+WHERE e.salary > (
+    SELECT AVG(e2.salary)
+    FROM employees e2
+    WHERE e2.department = e.department
+)
+ORDER BY e.department, e.salary DESC;
+
+
+-- Q32. Count employees earning more than each employee.
+SELECT
+    e.emp_name,
+    e.department,
+    e.salary,
+    (
+        SELECT COUNT(*)
+        FROM employees e2
+        WHERE e2.department = e.department
+        AND e2.salary > e.salary
+    ) AS higher_earners
+FROM employees e
+ORDER BY e.department, e.salary DESC;
+
+
+-- Q33. Find customers whose total spend is above average spend.
+SELECT
+    c.customer_id,
+    c.customer_name,
+    (
+        SELECT SUM(o.amount)
+        FROM orders o
+        WHERE o.customer_id = c.customer_id
+    ) AS total_spend
+FROM customers c
+WHERE (
+    SELECT SUM(o.amount)
+    FROM orders o
+    WHERE o.customer_id = c.customer_id
+) > (
+    SELECT AVG(total_spend)
+    FROM (
+        SELECT customer_id, SUM(amount) AS total_spend
+        FROM orders
+        GROUP BY customer_id
+    ) x
+)
+ORDER BY total_spend DESC;
+
+
+-- Q34. Find employees in departments with average salary > 65000.
+SELECT emp_name, department, salary
+FROM employees
+WHERE department IN (
+    SELECT department
+    FROM employees
+    GROUP BY department
+    HAVING AVG(salary) > 65000
+)
+ORDER BY department, salary DESC;
+
+
+-- Q35. Label each order as Above Avg or Below Avg for its customer.
+SELECT
+    o.order_id,
+    o.customer_id,
+    o.amount,
+    CASE
+        WHEN o.amount >= (
+            SELECT AVG(o2.amount)
+            FROM orders o2
+            WHERE o2.customer_id = o.customer_id
+        )
+        THEN 'Above Avg'
+        ELSE 'Below Avg'
+    END AS vs_cust_avg
+FROM orders o
+ORDER BY o.customer_id, o.order_id;
+
+
+-- Q36. Find products priced above the average of OTHER products
+-- in the same category.
+SELECT
+    p.product_name,
+    p.category,
+    p.price,
+    ROUND((
+        SELECT AVG(p2.price)
+        FROM products p2
+        WHERE p2.category = p.category
+        AND p2.product_id <> p.product_id
+    ), 2) AS cat_avg
+FROM products p
+WHERE p.price > (
+    SELECT AVG(p2.price)
+    FROM products p2
+    WHERE p2.category = p.category
+    AND p2.product_id <> p.product_id
+)
+ORDER BY p.category, p.price DESC;
+
+
+-- Q37. Find employees earning more than at least one Marketing employee.
+SELECT emp_name, department, salary
+FROM employees
+WHERE salary > ANY (
+    SELECT salary
+    FROM employees
+    WHERE department = 'Marketing'
+)
+ORDER BY salary DESC;
+
+
+-- Q38. Find employees earning less than every Finance employee.
+SELECT emp_name, department, salary
+FROM employees
+WHERE salary < ALL (
+    SELECT salary
+    FROM employees
+    WHERE department = 'Finance'
+)
+ORDER BY salary DESC;
+
+
+-- Q39. Find customers whose every order is Delivered.
+SELECT c.customer_id, c.customer_name
+FROM customers c
+WHERE EXISTS (
+    SELECT 1
+    FROM orders o
+    WHERE o.customer_id = c.customer_id
+)
+AND NOT EXISTS (
+    SELECT 1
+    FROM orders o
+    WHERE o.customer_id = c.customer_id
+    AND o.status <> 'Delivered'
+)
+ORDER BY c.customer_id;
+
+
+-- Q40. Find products ordered by customers from Mumbai.
+SELECT product_id, product_name, category
+FROM products
+WHERE product_id IN (
+    SELECT product_id
+    FROM orders
+    WHERE customer_id IN (
+        SELECT customer_id
+        FROM customers
+        WHERE city = 'Mumbai'
+    )
+)
+ORDER BY product_id;
+
+
+-- Q41. Find the employee with the second-highest salary.
+SELECT emp_name, department, salary
+FROM employees
+WHERE salary = (
+    SELECT MAX(salary)
+    FROM employees
+    WHERE salary < (
+        SELECT MAX(salary)
+        FROM employees
+    )
+);
+
+
+-- Q42. Find departments where every employee earns > 50000.
+SELECT DISTINCT e.department
+FROM employees e
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM employees e2
+    WHERE e2.department = e.department
+    AND e2.salary <= 50000
+)
+ORDER BY department;
+
+
+-- Q43. Find customers who ordered at least 2 different products.
+SELECT c.customer_id, c.customer_name
+FROM customers c
+WHERE (
+    SELECT COUNT(DISTINCT o.product_id)
+    FROM orders o
+    WHERE o.customer_id = c.customer_id
+) >= 2
+ORDER BY c.customer_id;
+
+
+-- Q44. Find employees earning above the average salary of their hire year.
+SELECT
+    e.emp_name,
+    e.department,
+    e.salary,
+    e.hire_year,
+    ROUND((
+        SELECT AVG(e2.salary)
+        FROM employees e2
+        WHERE e2.hire_year = e.hire_year
+    ), 2) AS year_avg
+FROM employees e
+WHERE e.salary > (
+    SELECT AVG(e2.salary)
+    FROM employees e2
+    WHERE e2.hire_year = e.hire_year
+)
+ORDER BY e.hire_year, e.salary DESC;
+
+
+-- Q45. Find products with stock below their category average.
+SELECT
+    p.product_name,
+    p.category,
+    p.stock_qty,
+    ROUND((
+        SELECT AVG(p2.stock_qty)
+        FROM products p2
+        WHERE p2.category = p.category
+    ), 2) AS cat_avg_stock
+FROM products p
+WHERE p.stock_qty < (
+    SELECT AVG(p2.stock_qty)
+    FROM products p2
+    WHERE p2.category = p.category
+)
+ORDER BY p.category, p.stock_qty ASC;
